@@ -18,22 +18,35 @@
 // Passo 1 - pegar o botão mostrsar mais no JS para poder verificar quando o usuário clicar em cima dele
 
 const botaoMostrarProjetos = document.querySelector(".btn-mostrar-projetos");
-const projetosInativos = document.querySelectorAll(".projeto:not(.ativo)");
+let projetosRevelados = []; // Array para armazenar os projetos que foram revelados
 
 botaoMostrarProjetos.addEventListener("click", () => { 
-    mostrarMaisProjetos();
-    esconderBotao();
+    if (botaoMostrarProjetos.textContent === "Mostrar mais") {
+        mostrarMaisProjetos();
+    } else {
+        esconderProjetosRevelados();
+    }
+});
 
+function esconderProjetosRevelados() {
+    // Esconde apenas os projetos que foram revelados pelo clique do botão "Mostrar mais"
+    projetosRevelados.forEach(projeto => {
+        projeto.classList.remove('ativo');
     });
-
-function esconderBotao() {
-    botaoMostrarProjetos.classList.add('remover');
+    // Limpa o array após esconder os projetos
+    projetosRevelados = [];
+    botaoMostrarProjetos.textContent = "Mostrar mais"; // Muda o texto do botão
 }
 
 function mostrarMaisProjetos() {
-    projetosInativos.forEach(projetoInativo =>{
-        projetoInativo.classList.add('ativo');
+    const projetosInativos = document.querySelectorAll(".projeto:not(.ativo)");
+    projetosInativos.forEach(projeto => {
+        projeto.classList.add('ativo');
+        // Adiciona o projeto revelado ao array para controle
+        projetosRevelados.push(projeto);
     });
+    botaoMostrarProjetos.textContent = "Mostrar menos"; // Muda o texto do botão
 }
+
 
 
